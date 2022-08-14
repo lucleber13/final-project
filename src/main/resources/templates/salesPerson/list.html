@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{salesPerson.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{salesPerson.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/salesPersons/add}" th:text="#{salesPerson.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${salesPersons.empty}" th:text="#{salesPerson.list.empty}" />
+            <div th:if="${!salesPersons.empty}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="#{salesPerson.id.label}" scope="col" />
+                            <th th:text="#{salesPerson.name.label}" scope="col" />
+                            <th th:text="#{salesPerson.user.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="salesPerson : ${salesPersons}">
+                            <td th:text="${salesPerson.id}" />
+                            <td th:text="${salesPerson.name}" />
+                            <td th:text="${salesPerson.user}" />
+                            <td>
+                                <form th:action="@{/salesPersons/delete/{id}(id=${salesPerson.id})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-end">
+                                    <a th:href="@{/salesPersons/edit/{id}(id=${salesPerson.id})}" th:text="#{salesPerson.list.edit}" class="btn btn-sm btn-info" />
+                                    <button th:text="#{salesPerson.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
